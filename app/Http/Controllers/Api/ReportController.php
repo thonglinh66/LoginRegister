@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use DB;
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -24,11 +25,32 @@ class ReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+  
+    public function login(Request $request)
     {
-        $data =  DB::table('report')->insert($request->all());
-
-        return response()->json($data, 201);
+        $arr = [
+            'username' => $request->username,
+            'password' =>$request->password,
+        ];
+         //dd($arr);
+         //dd(Auth::attempt($arr));
+        if (Auth::attempt($arr)) {
+            $id = $request->username;
+            $puttype = DB::table('user')->where('username','=',$id)->select('type')->first();
+          
+            $type = $puttype->type;
+            if($type == '0'){
+                return response()->json('0', 201);
+            }else if($type == '1'){
+                return response()->json('0', 201);
+            }else if($type == '2'){
+                return response()->json('0', 201);
+            }
+            //  
+        }else{
+            return response()->json('Error', 201);
+            // dd('thất bại');   
+        }
     }
 
     /**

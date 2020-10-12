@@ -19,4 +19,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('report', 'App\Http\Controllers\Api\ReportController@index');
-Route::post('report', 'App\Http\Controllers\Api\ReportController@store');
+Route::post('report', 'App\Http\Controllers\Api\ReportController@login');
+
