@@ -28,11 +28,15 @@ Route::post('notification', 'App\Http\Controllers\Api\ReportController@getNoti')
 Route::post('mess', 'App\Http\Controllers\Api\ReportController@getMess');
 Route::post('sendmess', 'App\Http\Controllers\Api\ReportController@postMess');
 
+Route::post('updatenot', 'App\Http\Controllers\Api\ReportController@clNot');
 
 
 
 
 
+Route::post('acreport', 'App\Http\Controllers\Api\TechController@accept');
+
+Route::post('clreport', 'App\Http\Controllers\Api\TechController@close');
 
 Route::post('postsolution', 'App\Http\Controllers\Api\TechController@solution');
 Route::post('history', 'App\Http\Controllers\Api\TechController@historyTech');
