@@ -22,6 +22,8 @@ Route::group(['middleware' => 'localization'], function () {
         Route::post('/report', 'App\Http\Controllers\HomeController@reportfeeback')->name('home.report.feedback');
         Route::get('/history', 'App\Http\Controllers\HomeController@history')->name('home.history');
         Route::get('/detail/{id}', 'App\Http\Controllers\HomeController@detail')->name('home.detail');
+        Route::post('/mess', 'App\Http\Controllers\HomeController@mess')->name('home.mess');
+
         Route::get('/edit', 'App\Http\Controllers\HomeController@edit')->name('home.edit');
         Route::post('/edit', 'App\Http\Controllers\HomeController@editpost')->name('home.edit.post');
         Route::post('/feedback', 'App\Http\Controllers\HomeController@feedback')->name('home.feedback');

@@ -134,6 +134,12 @@ class HomeController extends Controller
 
          return view('pages.users.component',compact('messages'));
     }
+    public function mess(Request $request)
+    {    
+        $messages=DB::table('messages')->where('post_id','=',$request->id)->orderBy('messages.time', 'ASC')->get();
+ 
+         return view('pages.users.component',compact('messages'));
+    }
    
     public function changeLanguage(Request $request)
     {
