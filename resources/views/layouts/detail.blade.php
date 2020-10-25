@@ -108,8 +108,9 @@
         </div>
 
         <!-- ---------------------------------------------------------content message------------------------- -->
-
-<div  id="croll" name="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; ">
+        
+        <div  id="croll" name="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; ">
+        
 @foreach($messages as $m)
           <div class="container" @if($m->user_type != 0) style=" text-align: right; " @endif>
           @if($m->user_type == 0) 
@@ -123,9 +124,9 @@
           @endif
             <p @if($m->user_type == 0) style="margin-left: 20px; " @else style="margin-right: 20px;" @endif>{{$m->contains}}</p>
     </div>
-
     
     @endforeach
+  
 </div> 
 
 <!-- ------------------------------------------------------------message-------------------------------- -->
@@ -157,6 +158,33 @@
   <script>
    var div = document.getElementById("croll");
    div.scrollTop = div.scrollHeight - div.clientHeight;
+
+
+  
+   $(document).ready(function(){
+    setInterval(function(){
+              var id = $('.approved').attr('id');
+
+                // alert(feedback);
+                $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('home.mess')}}",
+                data:{ id:id},
+                success: function(data){
+                      $('#croll').html(data);
+                      var div = document.getElementById("croll");
+                      div.scrollTop = div.scrollHeight - div.clientHeight;
+                    },
+                    error: function(data) {
+                        // alert("Lỗi rồi mày ơi");
+                        alert(JSON.stringify(data));
+                    }
+                })        
+            },1000)
+        });
 </script>
 
 
@@ -185,11 +213,9 @@ $(document).ready(function () {
                     }
                 })
               })
-              
-              
-               
                 });
         </script>
+       
 </body>
 
 </html>
