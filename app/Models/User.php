@@ -19,10 +19,15 @@ class User extends Authenticatable
      */
     
     protected $table = 'user';
+    protected $primaryKey = 'id';
+    protected $keyType = 'int';
     protected $fillable = [
-        'userName',
+        'id',
+        'username',
         'password',
+        'type',
     ];
+    public $timestamps = false;
     public function setPasswordAttribute($password)
 {
     $this->attributes['password'] = bcrypt($password);

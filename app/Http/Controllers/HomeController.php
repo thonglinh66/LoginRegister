@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 use Illuminate\Database\QueryException;
 use App\Models\Report;
 use App\Models\Employee;
+use App\Models\Message;
 use Carbon\Carbon;
+use Session;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -65,7 +67,8 @@ class HomeController extends Controller
         $report->status=0;
         $report->image =$name;
         $datenow = Carbon::now();
-        $report->createreport =Carbon::parse($datenow)->format('Y-m-d'); ;
+        $report->createreport = $datenow;
+        // $report->createreport =Carbon::parse($datenow)->format('Y-m-d'); 
 
 
         $report->save();
@@ -76,7 +79,7 @@ class HomeController extends Controller
         $user = $request->session()->get('user');
         $employee = DB::table('employee')->where('username','=',$user)->first();
         $data = DB::table('user')->join('employee', 'employee.username','=', 'user.username')->select('employee.fullname')->first();
-        $report = DB::table('report')->where('username_emp','=',$user)->orderBy('report.createreport', 'DESC')->paginate(5);
+        $report = DB::table('report')->where('username_emp','=',$user)->orderBy('report.createreport', 'DESC')->get();
         return view('pages.users.history',compact('user','data','report'));
     }
     public function detail(Request $request)
@@ -87,8 +90,9 @@ class HomeController extends Controller
         $data = DB::table('user')->join('employee', 'employee.username','=', 'user.username')->select('employee.fullname')->first();
         $report = DB::table('report')->where('id','=',$id)->first();
         $technicians=DB::table('technicians')->join('report','report.username_tech','=','technicians.username')->where('report.id','=',$id)->first();
+        $messages=DB::table('messages')->where('post_id','=',$id)->orderBy('messages.time', 'ASC')->get();
 
-        return view('pages.users.detail',compact('user','data','report','technicians'));
+        return view('pages.users.detail',compact('user','data','report','technicians','id','messages'));
     }
     public function edit(Request $request)
     {
@@ -114,5 +118,33 @@ class HomeController extends Controller
             ->where('username','=', $user)
             ->update($datauser);
         return redirect()->back()->with('name', 'Update successfully');
+    }
+
+    public function feedback(Request $request)
+    {
+        $account = new Message();
+        $account->contains = $request->feedback;
+        $account->post_id =  $request->id;
+        $account->user_type = 0;
+        $account->time =  Carbon::now();
+        $account->save();
+
+        $messages=DB::table('messages')->where('post_id','=',$request->id)->orderBy('messages.time', 'ASC')->get();
+        return Response::json(array(
+            'messages' => $messages,  
+          ));
+    }
+    public function changeLanguage(Request $request)
+    {
+        $lang = $request->language;
+        $language = config('app.locale');
+        if ($lang == 'en') {
+            $language = 'en';
+        }
+        if ($lang == 'vi') {
+            $language = 'vi';
+        }
+        Session::put('language', $language);
+        return redirect()->back();
     }
 }
