@@ -20,4 +20,27 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('report', 'App\Http\Controllers\Api\ReportController@index');
 Route::post('report', 'App\Http\Controllers\Api\ReportController@login');
+Route::get('retrieve', 'App\Http\Controllers\Api\ReportController@retrieveData');
+Route::post('myreport', 'App\Http\Controllers\Api\ReportController@show');
+Route::post('upreport', 'App\Http\Controllers\Api\ReportController@upload');
+
+Route::post('notification', 'App\Http\Controllers\Api\ReportController@getNoti');
+Route::post('mess', 'App\Http\Controllers\Api\ReportController@getMess');
+Route::post('sendmess', 'App\Http\Controllers\Api\ReportController@postMess');
+
+
+
+
+
+
+
+Route::post('postsolution', 'App\Http\Controllers\Api\TechController@solution');
+Route::post('history', 'App\Http\Controllers\Api\TechController@historyTech');
+Route::post('process', 'App\Http\Controllers\Api\TechController@processTech');
+
+Route::post('approd', 'App\Http\Controllers\Api\TechController@approdTech');
+
+
+
+
 
