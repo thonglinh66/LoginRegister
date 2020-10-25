@@ -30,7 +30,7 @@ class LoginController extends Controller
             }else if($type == '1'){
                 return redirect('technicians/');
             }else if($type == '2'){
-                return redirect('account');
+                return redirect('admin/');
             }
             //  
         }else{

@@ -21,9 +21,10 @@ class Report extends Model
         'description',
         'status',
         'image',
-        'solution',
-        'solve',
+        'solution',       
+         'solve',
         'createreport',
+
         'completed',
         'created_at',
         'updated_at',
