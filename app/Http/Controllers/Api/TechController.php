@@ -32,6 +32,16 @@ class TechController extends Controller
         $result = DB::table('report')->where('id','=',$id)->update(["solution" => $solution, "status" => 3]);
         return response()->json($result, 200);
     }
+    public function accept (Request $request){
+        $id =  $request->id;
+        $result = DB::table('report')->where('id','=',$id)->update([ "status" => 2]);
+        return response()->json($result, 200);
+    }
+    public function close (Request $request){
+        $id =  $request->id;
+        $result = DB::table('report')->where('id','=',$id)->update([ "username_tech" => null]);
+        return response()->json($result, 200);
+    }
     
 }
 ?>

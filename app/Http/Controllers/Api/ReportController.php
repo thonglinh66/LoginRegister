@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use DB;
 use Auth;
 use Carbon\Carbon;
+use App\Models\Message;
 use App\Models\Report;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
@@ -30,8 +31,8 @@ class ReportController extends Controller
      */
   
     public function retrieveData(){
-        $result = DB::table('report')->where('status','=','2')->get();
-        return response()->json($result, 201);
+        $result = DB::table('report')->where('status','=','3')->get();
+        return response()->json($result, 200);
     }
     public function login(Request $request)
     {
@@ -118,6 +119,23 @@ class ReportController extends Controller
         return response()->json($result, 200);
     }
     
+    public function postMess(Request $request)
+    {
+        $id = $request->id;
+        $contains = $request->contains;
+        $type = $request->type;
+        $Messages = new Message();
+        $Messages->contains =  $contains;
+        $Messages->post_id =  $id;
+        $Messages->user_type =  $type;
+        $datenow = Carbon::now();
+        $Messages->time =Carbon::parse($datenow)->format('Y-m-d'); ;
+        if($Messages->save()){
+            return response()->json("Success", 200);
+        }else{
+            return response()->json("Fail", 200);
+        }
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -125,9 +143,11 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function clNot(Request $request)
     {
-        //
+        $username =  $request->username;
+        $result = DB::table('notification')->where('username','=',$username)->update([ "checkkey" => 1]);
+        return response()->json($result, 200);
     }
 
     /**
