@@ -15,7 +15,7 @@ Route::get('hash/{string}',function($string){
       
 
 Route::group(['middleware' => 'localization'], function () {
-
+  
     Route::prefix('home')->group(function () {
         Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
         Route::get('/report', 'App\Http\Controllers\HomeController@report')->name('home.report');
@@ -24,7 +24,8 @@ Route::group(['middleware' => 'localization'], function () {
         Route::get('/detail/{id}', 'App\Http\Controllers\HomeController@detail')->name('home.detail');
         Route::get('/edit', 'App\Http\Controllers\HomeController@edit')->name('home.edit');
         Route::post('/edit', 'App\Http\Controllers\HomeController@editpost')->name('home.edit.post');
-        Route::post('/feedback/{id}', 'App\Http\Controllers\HomeController@feedback')->name('home.feedback');
+        Route::post('/feedback', 'App\Http\Controllers\HomeController@feedback')->name('home.feedback');
+       
        
     });
     Auth::routes();

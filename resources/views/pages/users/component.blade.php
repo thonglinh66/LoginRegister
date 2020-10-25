@@ -1,6 +1,3 @@
-{{dd($messages)}}
-
-<div  id="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; ">
 @foreach($messages as $m)
           <div class="container" @if($m->user_type != 0) style=" text-align: right; " @endif>
           @if($m->user_type == 0) 
@@ -14,8 +11,6 @@
           @endif
             <p @if($m->user_type == 0) style="margin-left: 20px; " @else style="margin-right: 20px;" @endif>{{$m->contains}}</p>
     </div>
+
+    
     @endforeach
-</div> 
-
-
- 

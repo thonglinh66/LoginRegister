@@ -121,19 +121,20 @@ class HomeController extends Controller
     }
 
     public function feedback(Request $request)
-    {
-        $account = new Message();
-        $account->contains = $request->feedback;
-        $account->post_id =  $request->id;
-        $account->user_type = 0;
-        $account->time =  Carbon::now();
-        $account->save();
+    {    
+        $Message = new Message();
+        $Message->contains = $request->feedback;
+        $Message->post_id =  $request->id;
+        $Message->user_type = 0;
+        $Message->time =  Carbon::now();
+        $Message->save();
 
         $messages=DB::table('messages')->where('post_id','=',$request->id)->orderBy('messages.time', 'ASC')->get();
-        return Response::json(array(
-            'messages' => $messages,  
-          ));
+    
+
+         return view('pages.users.component',compact('messages'));
     }
+   
     public function changeLanguage(Request $request)
     {
         $lang = $request->language;

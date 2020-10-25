@@ -13,7 +13,7 @@
       <div class="row mb-5 justify-content-center" data-aos="fade-up">
         <div class="col-md-8 text-center">
           <h2 class="mb-4 section-title">{{__('Detail')}}</h2>
-          <p>{{__('Show details of a request in history.')}}</p>
+          <p id="aa">{{__('Show details of a request in history.')}}</p>
         </div>
       </div>
     </div>
@@ -139,9 +139,10 @@
                         <textarea rows="5" class="form-control" id="feedback" name="feedback" placeholder="{{__('Content...')}}"></textarea>
                 </div>
                 <div class="form-group" >
-                        <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white;" class="btn approved">{{__('Confirm')}}</button>
+                        <!-- <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white;" class="btn approved">{{__('Confirm')}}</button> -->
                     </div>
             </form>
+            <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white;" class="btn approved">{{__('Confirm')}}</button>
         </div>
     </div> 
     @endif
@@ -162,37 +163,32 @@
 <script>
 $(document).ready(function () {
             $('.approved').on('click',function(){
-                var feedback =$("#feedback").val(); 
+                var feedback =$('#feedback').val(); 
                 var id = $(this).attr('id');
-                //alert(id);
+                // alert(feedback);
                 $.ajax({
                 headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                 type: 'post',
-                url: "{{route('home.feedback',$id)}}",
-                data:{id:id,feedback:feedback},
-                 dataType: 'json',
-          
-                
-
+                url: "{{route('home.feedback')}}",
+                data:{feedback:feedback, id:id},
+                success: function(data){
+                      $('#croll').html(data);
+                      var div = document.getElementById("croll");
+                          div.scrollTop = div.scrollHeight - div.clientHeight;
+                          $('#feedback').val('');
+                    },
+                    error: function(data) {
+                        // alert("Lỗi rồi mày ơi");
+                        alert(JSON.stringify(data));
+                    }
                 })
-
+              })
               
-                var form = document.forms.namedItem("croll");
-                var formData = new FormData(form); 
-                $.ajax({
-                  type: "post",
-                  url: "{{route('home.feedback',$id)}}",
-                  contentType: false,
-                  data: formData, 
-                  processData: false,
+              
+               
                 });
-                            
-                });
-
-            
-        });
         </script>
 </body>
 
