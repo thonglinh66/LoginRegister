@@ -47,7 +47,7 @@ class HomeController extends Controller
     public function reportfeeback(Request $request)
     {
         $this->validate($request, [
-            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
         $user = $request->session()->get('user');
         $report = new Report();
