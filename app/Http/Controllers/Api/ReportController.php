@@ -67,9 +67,10 @@ class ReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($username)
+    public function show(Request $request)
     {
-        $result = DB::table('report')->where('username_emp','=',$username)->get();
+        $username =$request->username;
+        $result = DB::table('report')->where('username_emp','=',$username)->orderBy('createreport', 'DESC')->get();
         return response()->json($result, 200);
     }
     public function upload(Request $request){
@@ -83,7 +84,7 @@ class ReportController extends Controller
         {
             $path = public_path('File/File_img');
             $name = Str::Random(5).'_'.$image->getClientOriginalName(); 
-            $img->move($path,$name);
+            $image->move($path,$name);
         };
         $report->username_emp =  $username;
         $report->title = $title;
@@ -93,7 +94,7 @@ class ReportController extends Controller
         $report->status=0;
         $report->image =$name;
         $datenow = Carbon::now();
-        $report->createreport =Carbon::parse($datenow)->format('Y-m-d'); ;
+        $report->createreport =$datenow; ;
 
 
 
@@ -115,7 +116,7 @@ class ReportController extends Controller
     public function getMess(Request $request)
     {
         $id = $request->id;
-        $result = DB::table('messages')->where('id','=',$id)->get();
+        $result = DB::table('messages')->where('post_id','=',$id)->get();
         return response()->json($result, 200);
     }
     

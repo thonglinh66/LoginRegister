@@ -13,12 +13,12 @@ class TechController extends Controller
 {
     public function historytech (Request $request){
         $username =  $request->username;
-        $result = DB::table('report')->where('username_tech','=',$username)->where('status','=','3')->get();
+        $result = DB::table('report')->where('username_tech','=',$username)->where('status','=','3')->orderBy('createreport', 'DESC')->get();
         return response()->json($result, 200);
     }
     public function approdTech (Request $request){
         $username =  $request->username;
-        $result = DB::table('report')->where('username_tech','=',$username)->where('status','=','1')->get();
+        $result = DB::table('report')->where('username_tech','=',$username)->where('status','=','1')->orderBy('createreport', 'DESC')->get();
         return response()->json($result, 200);
     }
     public function processTech (Request $request){
