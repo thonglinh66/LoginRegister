@@ -23,5 +23,6 @@
 
     @include('layouts/admin/js')
     @include('layouts/admin/script')
+    
 </body>
 </html>

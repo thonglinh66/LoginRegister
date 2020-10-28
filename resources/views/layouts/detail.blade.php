@@ -92,7 +92,7 @@
               </ul>
             </div>
             <div class="mb-5">
-              <h3 style="display: inline-block;color:#7532a8;" class="h5 d-flex align-items-center mb-4 "><span style="color:#7532a8;"></span>{{__('Mesage')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <h3 style="display: inline-block;color:#7532a8;" class="h5 d-flex align-items-center mb-4 "><span style="color:#7532a8;"></span>{{__('Message')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
             </div>
           </div>
@@ -109,9 +109,8 @@
 
         <!-- ---------------------------------------------------------content message------------------------- -->
         
-        <div  id="croll" name="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; ">
-        
-@foreach($messages as $m)
+  <div  id="croll" name="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; margin-bottom:20px;"> 
+    @foreach($messages as $m)
           <div class="container" @if($m->user_type != 0) style=" text-align: right; " @endif>
           @if($m->user_type == 0) 
           <p> <span style="padding-top:6px;color:#e303fc;" class="icon-check_circle mr-2 ">{{__('Me')}} &nbsp;&nbsp;{{$m->time}}</p>
@@ -143,7 +142,7 @@
                         <!-- <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white;" class="btn approved">{{__('Confirm')}}</button> -->
                     </div>
             </form>
-            <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white;" class="btn approved">{{__('Confirm')}}</button>
+            <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white; margin-left:-120px; margin-bottom:10px;" class="btn approved">{{__('Confirm')}}</button>
         </div>
     </div> 
     @endif

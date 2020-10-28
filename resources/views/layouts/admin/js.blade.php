@@ -34,6 +34,9 @@
 <!-- tooltip -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="js/script.js"></script>
 <!-- DataTables -->
 <script src="{{asset('/src/admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/src/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
