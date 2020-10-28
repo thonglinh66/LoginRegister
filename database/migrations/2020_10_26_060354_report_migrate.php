@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFailedJobsTable extends Migration
+class ReportMigrate extends Migration
 {
     /**
      * Run the migrations.
@@ -16,16 +16,16 @@ class CreateFailedJobsTable extends Migration
         Schema::create('report', function (Blueprint $table) {
             $table->increments('id');
             $table->string('username_emp');
-            $table->string('username_tech');
+            $table->string('username_tech')->nullable();
             $table->string('title');
             $table->string('address');
             $table->string('description');
-            $table->interger('email');
-            $table->string('image');
-            $table->date('createreport');
-            $table->date('solve');
-            $table->date('completed');
-            $table->string('solution');
+            $table->integer('status');
+            $table->string('image')->nullable();
+            $table->dateTime('createreport')->nullable();
+            $table->dateTime('solve')->nullable();
+            $table->dateTime('completed')->nullable();
+            $table->string('solution')->nullable();
         });
     }
 
@@ -36,6 +36,6 @@ class CreateFailedJobsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('report');
     }
 }
