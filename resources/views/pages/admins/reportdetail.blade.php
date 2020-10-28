@@ -51,7 +51,7 @@ List
         font-size: 12px!important;
     }
 </style>
-    
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <section class="site-section" style="padding:10px 0px 0px 0px; font-size: 20px;">
       <div class="container">
         <div class="row align-items-center mb-5">
@@ -129,19 +129,12 @@ List
               <h3 style="display: inline-block;color:#7532a8;" class="h5 d-flex align-items-center mb-4 "><span style="color:#7532a8;"class="icon-turned_in mr-3"></span>Mesage</h3>
             </div>
           </div>
-
-       
-         
-        
-      </div>
-
-          
+      </div> 
         </div>
-      </div>
       <!-- ---------------------------------------------------------content message------------------------- -->
-      @if($report->status !=0  )
-<div  id="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; font-size:20px; ">
-@foreach($messages as $m)
+@if($report->status !=0  )
+  <div  id="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; font-size:20px;  margin-bottom:40px;">
+  @foreach($messages as $m)
           <div class="container" @if($m->user_type != 2) style=" text-align: right; " @endif>
           @if($m->user_type == 1) 
           <p> <span style="padding-top:6px;color:#e303fc;" class="icon-check_circle mr-2 ">Technicians &nbsp;&nbsp;{{$m->time}}</p>
@@ -154,8 +147,6 @@ List
           @endif
             <p @if($m->user_type == 2) style="margin-left: 20px; " @else style="margin-right: 20px;" @endif>{{$m->contains}}</p>
     </div>
-
-    
     @endforeach
 </div> 
 @endif
@@ -183,31 +174,87 @@ List
         </div>
     </div> 
     @endif
-    @if($report->status !=0 &&  $report->status !=3 )
+    @if($report->status !=0 &&  $report->status !=3 ) 
     <div class="row" style="font-size:20px; margin-top:10px;">
         <div class="col-sm-6 m-auto" >
-            <form action="{{route('admin.feedback',$report->id)}}" method="POST">
+            <form  style="width:700px; margin-left:-120px; ">
                 @csrf
                 <div class="form-group">
-                        <label for="code" class="control-label">Feedback</label>
-                        <textarea class="form-control" id="feedback" name="feedback" placeholder="Content..."></textarea>
+                        <label for="code" class="control-label" style="font-weight:bold;">Feedback</label>
+                        <textarea rows="5" class="form-control" id="feedback" name="feedback" placeholder="Content..."></textarea>
                 </div>
                 <div class="form-group" >
-                        <button type="submit" class="btn btn-primary">Confirm</button>
-                        <a href="{{route('admin.report')}}" class="btn btn-default">Back</a>
                     </div>
             </form>
+            <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white; margin-left:-120px; margin-bottom:10px;" class="btn approved">Confirm</button>
         </div>
     </div> 
     @endif
+
+      
     <!-- ------------------end add--------------- -->  
     </section>
-    <script>
-   var div = document.getElementById("croll");
-   div.scrollTop = div.scrollHeight - div.clientHeight;
-</script>
-
-
 
     
+    
+
+    
+@endsection
+@section('script')
+<script>
+   var div = document.getElementById("croll");
+   div.scrollTop = div.scrollHeight - div.clientHeight;
+
+   $(document).ready(function(){
+    setInterval(function(){
+              var id = $('.approved').attr('id');
+
+                // alert(feedback);
+                $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('admin.mess')}}",
+                data:{ id:id},
+                success: function(data){
+                      $('#croll').html(data);
+                      var div = document.getElementById("croll");
+                      div.scrollTop = div.scrollHeight - div.clientHeight;
+                    },
+                    error: function(data) {
+                        // alert("Lỗi rồi mày ơi");
+                        alert(JSON.stringify(data));
+                    }
+                })        
+            },1000)
+        });
+</script>
+<script>
+$(document).ready(function () {
+            $('.approved').on('click',function(){
+                var feedback =$('#feedback').val(); 
+                var id = $(this).attr('id');
+                // alert(feedback);
+                $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('admin.feedback')}}",
+                data:{feedback:feedback, id:id},
+                success: function(data){
+                      $('#croll').html(data);
+                      var div = document.getElementById("croll");
+                          div.scrollTop = div.scrollHeight - div.clientHeight;
+                          $('#feedback').val('');
+                    },
+                    error: function(data) {
+                        // alert("Lỗi rồi mày ơi");
+                        alert(JSON.stringify(data));
+                    }
+                })
+              })
+                });
+        </script>
 @endsection

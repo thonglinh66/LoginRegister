@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- content body -->        
     <section class="site-section" style="padding:10px 0px 0px 0px">
       <div class="container">
@@ -102,7 +102,7 @@
         </div>
 <!-- ---------------------------------------------------------content message------------------------- -->
 
-<div  id="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; ">
+<div  id="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px;  margin-bottom:20px;">
 @foreach($messages as $m)
           <div class="container" @if($m->user_type != 1) style=" text-align: right; " @endif>
           @if($m->user_type == 1) 
@@ -117,24 +117,24 @@
             <p @if($m->user_type == 1) style="margin-left: 20px; " @else style="margin-right: 20px;" @endif>{{$m->contains}}</p>
     </div>
 
-    
     @endforeach
 </div> 
 
 <!-- ------------------------------------------------------------message-------------------------------- -->
-        @if($report->status != 3)
+@if($report->status != 3)
     <div class="row">
         <div class="col-sm-6 m-auto" >
-            <form action="{{route('technicians.feedback',$id)}}" method="POST" style="width:700px; margin-left:-120px; ">
+            <form  style="width:700px; margin-left:-120px; ">
                 @csrf
                 <div class="form-group">
-                        <label for="code" class="control-label" style="font-weight:bold;"> Send Feedback</label>
-                        <textarea rows="5" class="form-control" id="feedback" name="feedback" placeholder="Content..."></textarea>
+                        <label for="code" class="control-label" style="font-weight:bold;">{{__('Feedback')}}</label>
+                        <textarea rows="5" class="form-control" id="feedback" name="feedback" placeholder="{{__('Content...')}}"></textarea>
                 </div>
                 <div class="form-group" >
-                        <button type="submit" style=" background-color:#e303fc; border:none; color:white;"class="btn ">Confirm</button>
+                        <!-- <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white;" class="btn approved">{{__('Confirm')}}</button> -->
                     </div>
             </form>
+            <button type="submit" id="{{$report->id}}"style=" background-color:#e303fc; border:none; color:white; margin-left:-120px; margin-bottom:10px;" class="btn approved">{{__('Confirm')}}</button>
         </div>
     </div> 
     @endif
@@ -150,7 +150,60 @@
 <script>
    var div = document.getElementById("croll");
    div.scrollTop = div.scrollHeight - div.clientHeight;
+
+   $(document).ready(function(){
+    setInterval(function(){
+              var id = $('.approved').attr('id');
+
+                // alert(feedback);
+                $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('technicians.mess')}}",
+                data:{ id:id},
+                success: function(data){
+                      $('#croll').html(data);
+                      var div = document.getElementById("croll");
+                      div.scrollTop = div.scrollHeight - div.clientHeight;
+                    },
+                    error: function(data) {
+                        // alert("Lỗi rồi mày ơi");
+                        alert(JSON.stringify(data));
+                    }
+                })        
+            },1000)
+        });
 </script>
+
+<script>
+$(document).ready(function () {
+            $('.approved').on('click',function(){
+                var feedback =$('#feedback').val(); 
+                var id = $(this).attr('id');
+                // alert(feedback);
+                $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('technicians.feedback')}}",
+                data:{feedback:feedback, id:id},
+                success: function(data){
+                      $('#croll').html(data);
+                      var div = document.getElementById("croll");
+                          div.scrollTop = div.scrollHeight - div.clientHeight;
+                          $('#feedback').val('');
+                    },
+                    error: function(data) {
+                        // alert("Lỗi rồi mày ơi");
+                        alert(JSON.stringify(data));
+                    }
+                })
+              })
+                });
+        </script>
 </body>
 
 </html>

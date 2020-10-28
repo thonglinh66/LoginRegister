@@ -22,12 +22,12 @@ Route::group(['middleware' => 'localization'], function () {
         Route::post('/report', 'App\Http\Controllers\HomeController@reportfeeback')->name('home.report.feedback');
         Route::get('/history', 'App\Http\Controllers\HomeController@history')->name('home.history');
         Route::get('/detail/{id}', 'App\Http\Controllers\HomeController@detail')->name('home.detail');
-        Route::post('/mess', 'App\Http\Controllers\HomeController@mess')->name('home.mess');
-
         Route::get('/edit', 'App\Http\Controllers\HomeController@edit')->name('home.edit');
         Route::post('/edit', 'App\Http\Controllers\HomeController@editpost')->name('home.edit.post');
+// ---------------Ajax Jquery-------------------
+        Route::post('/mess', 'App\Http\Controllers\HomeController@mess')->name('home.mess');
         Route::post('/feedback', 'App\Http\Controllers\HomeController@feedback')->name('home.feedback');
-       
+// ---------------End Ajax Jquery-------------------
        
     });
     Auth::routes();
@@ -44,14 +44,14 @@ Route::prefix('technicians')->group(function () {
     Route::get('/history', 'App\Http\Controllers\TechniciansController@history')->name('technicians.history');
     Route::get('/detail/{id}', 'App\Http\Controllers\TechniciansController@detail')->name('technicians.detail');
     Route::get('/work', 'App\Http\Controllers\TechniciansController@work')->name('technicians.work');
-
     Route::get('/approved/{id}', 'App\Http\Controllers\TechniciansController@approved')->name('technicians.approved');
     Route::post('/approved/{id}', 'App\Http\Controllers\TechniciansController@approvedpost')->name('technicians.approved.post');
-
     Route::get('/processing/{id}', 'App\Http\Controllers\TechniciansController@processing')->name('technicians.processing');
     Route::post('/processing/{id}', 'App\Http\Controllers\TechniciansController@processingpost')->name('technicians.processing.post');
-
-    Route::post('/feedback/{id}', 'App\Http\Controllers\TechniciansController@feedback')->name('technicians.feedback');
+    // ---------------Ajax Jquery-------------------
+    Route::post('/mess', 'App\Http\Controllers\TechniciansController@mess')->name('technicians.mess');
+    Route::post('/feedback', 'App\Http\Controllers\TechniciansController@feedback')->name('technicians.feedback');
+// ---------------End Ajax Jquery-------------------
 });
 
 Route::prefix('admin')->group(function () {
@@ -66,7 +66,10 @@ Route::prefix('admin')->group(function () {
     Route::post('/delete-report/{id}', 'App\Http\Controllers\AdminController@deletereport')->name('admin.deletereport');
     Route::get('/report-Detail/{id}', 'App\Http\Controllers\AdminController@reportdetail')->name('admin.reportdetail');
     Route::post('/confirm/{id}', 'App\Http\Controllers\AdminController@confirm')->name('admin.confirm');
-    Route::post('/feedback/{id}', 'App\Http\Controllers\AdminController@feedback')->name('admin.feedback');
+    // ---------------Ajax Jquery-------------------
+    Route::post('/mess', 'App\Http\Controllers\AdminController@mess')->name('admin.mess');
+    Route::post('/feedback', 'App\Http\Controllers\AdminController@feedback')->name('admin.feedback');
+// ---------------End Ajax Jquery-------------------
 });
 
 

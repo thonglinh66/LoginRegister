@@ -156,13 +156,22 @@ class TechniciansController extends Controller
     }
 
     public function feedback(Request $request)
-    {
-        $account = new Message();
-        $account->contains = $request->get('feedback');
-        $account->post_id =  $request->id;
-        $account->user_type = 1;
-        $account->time =  Carbon::now();
-        $account->save();
-        return redirect()->back()->with('success', 'Feedback Success');
+    {    
+        $Message = new Message();
+        $Message->contains = $request->feedback;
+        $Message->post_id =  $request->id;
+        $Message->user_type = 1;
+        $Message->time =  Carbon::now();
+        $Message->save();
+
+        $messages=DB::table('messages')->where('post_id','=',$request->id)->orderBy('messages.time', 'ASC')->get();
+    
+
+         return view('pages.tech.componenttech',compact('messages'));
+    }
+    public function mess(Request $request)
+    {    
+        $messages=DB::table('messages')->where('post_id','=',$request->id)->orderBy('messages.time', 'ASC')->get();
+         return view('pages.tech.componenttech',compact('messages'));
     }
 }
