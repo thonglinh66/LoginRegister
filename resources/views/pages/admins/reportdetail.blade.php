@@ -126,13 +126,35 @@ List
           </div>
           </div>
             <div class="mb-5">
-              <h3 style="display: inline-block;color:#7532a8;" class="h5 d-flex align-items-center mb-4 "><span style="color:#7532a8;"class="icon-turned_in mr-3"></span>Mesage</h3>
+            @if($report->status == 0)
+      <div class="row" style="font-size:20px; margin-top:10px; margin-bottom: 5rem;">
+        <div class="col-sm-6 m-auto" >
+            <form action="{{route('admin.confirm',$id)}}" method="POST">
+                @csrf
+                <div class="form-group" >
+                    <label for="type" class="control-label">Choose the technician on duty</label>
+                    <select id="type" name="username_tech" class="form-control pull-right">
+                    @foreach ($tech as $t)
+                        <option value="{{$t->username}}" selected>{{$t->username}}-{{$t->fullname}}</option>
+                        @endforeach
+                    </select>
+                </div>   
+                <div class="form-group" >
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <a href="{{route('admin.report')}}" class="btn btn-default">Back</a>
+                    </div>
+            </form>
+        </div>
+    </div> 
+    @endif
             </div>
           </div>
       </div> 
         </div>
       <!-- ---------------------------------------------------------content message------------------------- -->
-@if($report->status !=0  )
+     
+
+@if(0==0)
   <div  id="croll"class="rounded"style="border: 1px solid; width: 63%;margin-left:165px;margin-top:-70px;overflow-y: scroll; height:300px; font-size:20px;  margin-bottom:40px;">
   @foreach($messages as $m)
           <div class="container" @if($m->user_type != 2) style=" text-align: right; " @endif>
@@ -153,31 +175,11 @@ List
 
 <!-- ------------------------------------------------------------message-------------------------------- -->
      <!-- ------------------ add--------------- -->
-     @if($report->status == 0)
-      <div class="row" style="font-size:20px; margin-top:10px;">
-        <div class="col-sm-6 m-auto" >
-            <form action="{{route('admin.confirm',$id)}}" method="POST">
-                @csrf
-                <div class="form-group" >
-                    <label for="type" class="control-label">Choose the technician on duty</label>
-                    <select id="type" name="username_tech" class="form-control pull-right">
-                    @foreach ($tech as $t)
-                        <option value="{{$t->username}}" selected>{{$t->username}}-{{$t->fullname}}</option>
-                        @endforeach
-                    </select>
-                </div>   
-                <div class="form-group" >
-                        <button type="submit" class="btn btn-primary">Confirm</button>
-                        <a href="{{route('admin.report')}}" class="btn btn-default">Back</a>
-                    </div>
-            </form>
-        </div>
-    </div> 
-    @endif
-    @if($report->status !=0 &&  $report->status !=3 ) 
+    
+    @if($report->status !=3 ) 
     <div class="row" style="font-size:20px; margin-top:10px;">
         <div class="col-sm-6 m-auto" >
-            <form  style="width:700px; margin-left:-120px; ">
+            <form  style="width:780px; margin-left:-150px; ">
                 @csrf
                 <div class="form-group">
                         <label for="code" class="control-label" style="font-weight:bold;">Feedback</label>
